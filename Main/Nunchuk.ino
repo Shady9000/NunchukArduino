@@ -6,32 +6,29 @@ const int INIT_LOCATIE1 = 0xA400F0;
 const int INIT_LOCATIE2 = 0xA400FB;
 const byte END_BYTE = 0x00;
 
-int analogX;
-int analogY;
-int acclX;
-int acclY;
-int acclZ;
-int zButton;
-int cButton;
+int input[7];
 
 void debugNunchuk() {
   Serial.print("X: ");
-  Serial.print(analogX, DEC);
+  Serial.print(input[0], DEC);
   Serial.print(" ");
   Serial.print("Y: ");
-  Serial.print(analogY, DEC);
+  Serial.print(input[1], DEC);
   Serial.print(" ");
-  Serial.print("waarde: ");
-  Serial.print(zButton);
+  Serial.print("Z: ");
+  Serial.print(input[2]);
+  Serial.print(" ");
+  Serial.print("C: ");
+  Serial.print(input[3]);
   Serial.print(" ");
   Serial.print("acclX: ");
-  Serial.print(acclX);
+  Serial.print(input[4]);
   Serial.print(" ");
   Serial.print("acclY: ");
-  Serial.print(acclY);
+  Serial.print(input[5]);
   Serial.print(" ");
   Serial.print("acclZ: ");
-  Serial.print(acclZ);
+  Serial.print(input[6]);
   Serial.println(" ");
 }
 
@@ -50,16 +47,24 @@ void updateArduino() {
     waardenArray[index] = Wire.read();
     index++;
   }
-
-  analogX = waardenArray[0];
-  analogY = waardenArray[1];
-  zButton = !((waardenArray[5] >> 0) & 1);
-  cButton = !((waardenArray[5] >> 1) & 1);
-  acclX = (waardenArray[2] << 2) | (waardenArray[5] >> 2);
-  acclY = (waardenArray[3] << 2) | (waardenArray[5] >> 4);
-  acclZ = (waardenArray[4] << 2) | (waardenArray[5] >> 6);
+  //joyX
+  input[0] = waardenArray[0];
+  //joyY
+  input[1] = waardenArray[1];
+  //btnZ
+  input[2] = !((waardenArray[5] >> 0) & 1);
+  //btnC
+  input[3] = !((waardenArray[5] >> 1) & 1);
+  //acclX
+  input[4] = (waardenArray[2] << 2) | (waardenArray[5] >> 2);
+  //acclY
+  input[5] = (waardenArray[3] << 2) | (waardenArray[5] >> 4);
+  //acclz
+  input[6] = (waardenArray[4] << 2) | (waardenArray[5] >> 6);
 
   sendData(END_BYTE, END_BYTE);
+
+  return output;
 }
 
 void sendData(byte data, byte locatie) {
