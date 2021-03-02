@@ -1,12 +1,4 @@
 #include <Wire.h>;
-int analogX;
-int analogY;
-int acclX;
-int acclY;
-int acclZ;
-int zButton;
-int cButton;
-//kaas
 const byte ADDRESS = 0x52;
 const byte INIT_DATA1 = 0x55;
 const byte INIT_DATA2 = 0x00;
@@ -14,13 +6,15 @@ const int INIT_LOCATIE1 = 0xA400F0;
 const int INIT_LOCATIE2 = 0xA400FB;
 const byte END_BYTE = 0x00;
 
-void setup() {
-  Serial.begin(9600);
-  wireSetup();
-}
+int analogX;
+int analogY;
+int acclX;
+int acclY;
+int acclZ;
+int zButton;
+int cButton;
 
-void loop() {
-  updateArduino();
+void debugNunchuk() {
   Serial.print("X: ");
   Serial.print(analogX, DEC);
   Serial.print(" ");
