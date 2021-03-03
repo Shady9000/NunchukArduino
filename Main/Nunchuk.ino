@@ -63,8 +63,6 @@ void updateArduino() {
   input[6] = (waardenArray[4] << 2) | (waardenArray[5] >> 6);
 
   sendData(END_BYTE, END_BYTE);
-
-  return output;
 }
 
 void sendData(byte data, byte locatie) {
